@@ -1,0 +1,105 @@
+﻿<!-- Player Info Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Info</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #F4F4F9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #2C3E50;
+            color: #ECF0F1;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .header .title {
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+            .header .user-info {
+                display: flex;
+                align-items: center;
+            }
+
+                .header .user-info img {
+                    height: 40px;
+                    border-radius: 50%;
+                    margin-right: 10px;
+                }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .info-container {
+            background-color: #ECF0F1;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .info-group {
+            margin-bottom: 15px;
+        }
+
+            .info-group label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+
+            .info-group .info {
+                background-color: #FFF;
+                padding: 10px;
+                border: 1px solid #CCC;
+                border-radius: 5px;
+            }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">Player Info</div>
+        <div class="user-info">
+            <img src="user-avatar.png" alt="User Avatar">
+            <span>Username</span>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="info-container">
+            <div class="info-group">
+                <label for="invite-code">Invite Code</label>
+                <div class="info" id="invite-code">12345</div>
+            </div>
+            <div class="info-group">
+                <label for="level">Level</label>
+                <div class="info" id="level">10</div>
+            </div>
+            <div class="info-group">
+                <label for="skills">Skills</label>
+                <div class="info" id="skills">Swordsmanship, Archery</div>
+            </div>
+            <div class="info-group">
+                <label for="guilds">Guilds</label>
+                <div class="info" id="guilds">Warriors Guild, Archers Guild</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

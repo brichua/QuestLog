@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guilds</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Productivity App</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="main.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="logoutButton">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Available Guilds</h4>
+                <input type="text" class="form-control mb-3" id="searchGuilds" placeholder="Search for guilds">
+                <ul id="guildsList" class="list-group"></ul>
+                <button class="btn btn-primary mt-3" data-toggle="modal" data-target="#createGuildModal">Create Guild</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Guild Modal -->
+    <div class="modal fade" id="createGuildModal" tabindex="-1" role="dialog" aria-labelledby="createGuildModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createGuildModalLabel">Create Guild</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="createGuildForm">
+                        <div class="form-group">
+                            <label for="guildName">Guild Name</label>
+                            <input type="text" class="form-control" id="guildName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="guildTags">Guild Tags</label>
+                            <input type="text" class="form-control" id="guildTags" placeholder="e.g., productivity, fitness" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        const user = auth.currentUser;
+
+        if (!user) {
+            window.location.href = 'index.html';
+        }
+
+        document.getElementById('logoutButton').addEventListener('click', function () {
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            });
+        });
+
+        function loadGuilds() {
+            db.collection('guilds').get().then(snapshot => {
+                const guildsList = document.getElementById('guildsList');
+                guildsList.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const guild = doc.data();
+                    const listItem = document.createElement('li');
+                    listItem.className = 'list-group-item';
+                    listItem.textContent = guild.name + ' - ' + guild.tags.join(', ');
+                    const joinButton = document.createElement('button');
+                    joinButton.className = 'btn btn-primary btn-sm float-right';
+                    joinButton.textContent = 'Join';
+                    joinButton.onclick = () => joinGuild(doc.id);
+                    listItem.appendChild(joinButton);
+                    guildsList.appendChild(listItem);
+                });
+            });
+        }
+
+        function joinGuild(guildId) {
+            db.collection('users').doc(user.uid).update({
+                guilds: firebase.firestore.FieldValue.arrayUnion(guildId)
+            }).then(() => {
+                loadGuildMessages();
+            });
+        }
+
+        document.getElementById('createGuildForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const guildName = document.getElementById('guildName').value;
+            const guildTags = document.getElementById('guildTags').value.split(',').map(tag => tag.trim());
+
+            db.collection('guilds').add({
+                name: guildName,
+                tags: guildTags,
+                members: [user.uid]
+            }).then(() => {
+                $('#createGuildModal').modal('hide');
+                loadGuilds();
+            });
+        });
+
+        document.getElementById('searchGuilds').addEventListener('input', function () {
+            const query = this.value.toLowerCase();
+            const allGuilds = document.querySelectorAll('#guildsList li');
+            allGuilds.forEach(guild => {
+                const guildText = guild.textContent.toLowerCase();
+                if (guildText.includes(query)) {
+                    guild.style.display = '';
+                } else {
+                    guild.style.display = 'none';
+                }
+            });
+        });
+
+        window.onload = function () {
+            loadGuilds();
+        };
+    </script>
+</body>
+</html>
