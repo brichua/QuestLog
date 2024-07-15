@@ -11,14 +11,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-function showLoginForm() {
-    window.location.href = "login.html";
-}
-
-function showSignupForm() {
-    window.location.href = "register.html";
-}
-
 async function login() {
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
