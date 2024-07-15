@@ -95,6 +95,14 @@
 
         .widget-content {
             font-size: 14px;
+            height: 100%;
+            overflow-y: scroll;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .widget-content::-webkit-scrollbar {
+            display: none;
         }
 
         .yellow-widget {
@@ -253,7 +261,7 @@
     <div class="header">
         <img src="user-avatar.png" alt="User Avatar">
         <div class="small-break"></div>
-        <div class="title">Username</div>
+        <div class="title" id="username">Username</div>
     </div>
     <div class="nav-bar">
         <a href="#"><img src="quest-icon.png" alt="Quests"></a>
@@ -467,5 +475,9 @@
                 </div>
             </div>
     </div>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="firebaseConfig.js"></script>
 </body>
 </html>
