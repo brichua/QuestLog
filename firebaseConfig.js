@@ -1,12 +1,12 @@
 const firebaseConfig = {
-            apiKey: "AIzaSyAssGJV_xIYqPdlPT9pm8wL8j1-7tnZ7iU",
-            authDomain: "productivity-website-a402d.firebaseapp.com",
-            databaseURL: "https://productivity-website-a402d-default-rtdb.firebaseio.com",
-            projectId: "productivity-website-a402d",
-            storageBucket: "productivity-website-a402d.appspot.com",
-            messagingSenderId: "709306651298",
-            appId: "1:709306651298:web:12beca13495f69b73a7dfb",
-            measurementId: "G-8WPDXW1QS0"
+    apiKey: "AIzaSyAssGJV_xIYqPdlPT9pm8wL8j1-7tnZ7iU",
+    authDomain: "productivity-website-a402d.firebaseapp.com",
+    databaseURL: "https://productivity-website-a402d-default-rtdb.firebaseio.com",
+    projectId: "productivity-website-a402d",
+    storageBucket: "productivity-website-a402d.appspot.com",
+    messagingSenderId: "709306651298",
+    appId: "1:709306651298:web:12beca13495f69b73a7dfb",
+    measurementId: "G-8WPDXW1QS0"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
@@ -38,37 +38,32 @@ async function signup() {
         await db.collection("Users").doc(firebase.auth().currentUser.uid).set({
             email: email,
         });
-        window.location.href = "main.html";
+        window.location.href = "create-user.html";
     } catch (error) {
         console.error("Error signing up:", error);
         alert(error)
     }
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-    firebase.auth().onAuthStateChanged(async (user) => {
-        if (user) {
-            console.log("User is signed in:", user);
-            const userId = user.uid;
-            const username = user.email;
-
-            const userUsernameElement = document.getElementById("username");
-            if (userUsernameElement) {
-                userUsernameElement.textContent = username;
-            } else {
-                console.error("Element with ID 'username' not found.");
-            }
-        } else {
-            console.log("No user is signed in");
-            window.location.href = "login.html";
-        }
-    });
-});
-function logOutUser() {
-  auth.signOut().then(() => {
-    console.log('User signed out successfully');
-    window.location.href = 'login.html';
-  }).catch((error) => {
-    console.error('Error signing out:', error);
-  });
+async function logOutUser() {
+    try {
+        await firebase.auth().signOut();
+        console.log('User signed out successfully');
+        window.location.href = 'login.html';
+    } catch (error) {
+        console.error('Error signing out:', error);
+    }
 }
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    document.getElementById('username').innerText = user.email;
+  } else {
+    window.location.href = "login.html";
+  }
+});
+
+function togglePopup() {
+    var popup = document.getElementById("ToDoPopup");
+    popup.classList.toggle("active");
+  }
