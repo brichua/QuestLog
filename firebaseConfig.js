@@ -1,3 +1,5 @@
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+
 const firebaseConfig = {
     apiKey: "AIzaSyAssGJV_xIYqPdlPT9pm8wL8j1-7tnZ7iU",
     authDomain: "productivity-website-a402d.firebaseapp.com",
@@ -21,7 +23,6 @@ async function login() {
     try {
         await firebase.auth().setPersistence(persistence);
         await firebase.auth().signInWithEmailAndPassword(email, password);
-        console.log("Login successful");
         window.location.href = "main.html";
     } catch (error) {
         console.error("Error logging in:", error);
@@ -57,13 +58,88 @@ async function logOutUser() {
 
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
-    document.getElementById('username').innerText = user.email;
+    displayUserInformation();
   } else {
     window.location.href = "login.html";
   }
 });
 
-function togglePopup() {
-    var popup = document.getElementById("ToDoPopup");
+async function displayUserInformation(){
+    const docRef = doc(db, "Users", firebase.auth().currentUser.uid);
+    const docSnap = getDoc(docRef);
+    var data = docSnap.data();
+
+    var username = data.username;
+    var skill1 = data.skill1;
+    var skill2 = data.skill2;
+
+
+    document.getElementById('username').innerText = username;
+
+    skillBox1 = document.getElementById('skillBox1');
+    if(skill1 != null){
+        skillBox1.innerText = skill1;
+        skillBox1.className = "skillBox";
+    }else{
+        skillBox1.innerText = "‎";
+        skillBox1.className = "skillBoxEmpty";
+    }
+    skillBox2 = document.getElementById('skillBox2');
+    if(skill2 != null){
+        skillBox2.innerText = skill2;
+        skillBox2.className = "skillBox";
+    }else{
+        skillBox2.innerText = "‎";
+        skillBox2.className = "skillBoxEmpty";
+    }
+}
+
+function toggleAddToDoPopup() {
+    var popup = document.getElementById("AddToDoPopup");
     popup.classList.toggle("active");
-  }
+}
+
+function toggleViewToDoPopup() {
+    var popup = document.getElementById("ViewToDoPopup");
+    popup.classList.toggle("active");
+}
+
+function taskCompleteToggle() {
+    var checkbox = document.getElementById("taskCheckbox");
+    checkbox.innerText = "check_box";
+}
+
+var difficulty = 0;
+
+function star1Toggle(){
+    var star = document.getElementById("skillStar1");
+    if(star.className == "material-symbols-outlined black"){
+        star.className = "material-symbols-outlined black-filled";
+        difficulty++;
+    }else if(star.className == "material-symbols-outlined black-filled"){
+        star.className = "material-symbols-outlined black";
+        difficulty--;
+    }
+}
+
+function star2Toggle(){
+    var star = document.getElementById("skillStar2");
+    if(star.className == "material-symbols-outlined black"){
+        star.className = "material-symbols-outlined black-filled";
+        difficulty++;
+    }else if(star.className == "material-symbols-outlined black-filled"){
+        star.className = "material-symbols-outlined black";
+        difficulty--;
+    }
+}
+
+function star3Toggle(){
+    var star = document.getElementById("skillStar3");
+    if(star.className == "material-symbols-outlined black"){
+        star.className = "material-symbols-outlined black-filled";
+        difficulty++;
+    }else if(star.className == "material-symbols-outlined black-filled"){
+        star.className = "material-symbols-outlined black";
+        difficulty--;
+    }
+}
