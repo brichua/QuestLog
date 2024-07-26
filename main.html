@@ -284,7 +284,7 @@
             border-style: solid;
             border: 5px solid #0d0e13;
             width: 500px;
-            height: 575px;
+            height: 600px;
             align-items: center;
             text-align: center;
         }
@@ -310,7 +310,7 @@
             border: 2px;
             border-style: solid;
             color: #0d0e13;
-            width: 80px;
+            width: 120px;
             background-color: white;
             border-radius: 10px;
             text-align: center;
@@ -320,8 +320,8 @@
             border: 2px;
             border-style: solid;
             color: #0d0e13;
-            width: 80px;
-            background-color: #0d0e134e;
+            width: 120px;
+            background-color: #a5c6bf85;
             border-radius: 10px;
             text-align: center;
         }
@@ -330,7 +330,7 @@
             border: 2px;
             border-style: solid;
             color: #0d0e1341;
-            width: 80px;
+            width: 120px;
             background-color: white;
             border-radius: 10px;
             text-align: center;
@@ -389,6 +389,13 @@
             height:40px;
         } 
 
+        .transparentTextButton{
+            background-color: transparent;
+            color: white;
+            border: 0px;
+            font-weight: 3px;
+        }
+
     </style>
 </head>
 <body>
@@ -414,7 +421,6 @@
                 <h2>Add Task</h2>
             </div>
             <br>
-            <center>
                 <strong>Task Name</strong>
                 <div class="form-group input-group">
                     <input type="text" class="rounded-input" id="newTaskName">
@@ -429,25 +435,26 @@
                 <br><br>
                 <strong>Type</strong>
                 <div class="title-bar">
-                    <button onclick="typeToggle()" id="regularTaskButton" class="skillBox">One Time</button>
-                    <button onclick="typeToggle()" id="dailyTaskButton" class="skillBox">Daily</button>
-                    <button onclick="typeToggle()" id="weeklyTaskButton" class="skillBox">Weekly</button>
+                    <button onclick="typeToggle1()" id="regularTaskButton" class="skillBox">One Time</button>
+                    <button onclick="typeToggle2()" id="dailyTaskButton" class="skillBox">Daily</button>
+                    <button onclick="typeToggle3()" id="weeklyTaskButton" class="skillBox">Weekly</button>
                 </div>
                 <br><br>
                 <strong>Skill</strong>
                 <br>
                 <div class="title-bar">
-                    <div id="skillBox1" class="skillBox">skill1</div>
-                    <div id="skillBox2" class="skillBox">skill1</div>
-                    <div id="skillBox3" class="skillBox">skill1</div>
+                    <button onclick="skill1Toggle()" id="skillBox1" class="skillBox">skill1</button>
+                    <button onclick="skill2Toggle()" id="skillBox2" class="skillBox">skill2</button>
+                    <button onclick="skill3Toggle()" id="skillBox3" class="skillBox">skill3</button>
                 </div><div class="title-bar">
-                    <div id="skillBox4" class="skillBox">skill1</div>
-                    <div id="skillBox5" class="skillBox">skill1</div>
-                    <div id="skillBox6" class="skillBox">skill1</div>
+                    <button onclick="skill4Toggle()" id="skillBox4" class="skillBox">skill4</button>
+                    <button onclick="skill5Toggle()" id="skillBox5" class="skillBox">skill5</button>
+                    <button onclick="skill6Toggle()" id="skillBox6" class="skillBox">skill6</button>
                 </div>
                 <br><br>
-                <button class="addTaskButton">Add Task</button>
-            </center>
+                <button onclick="addTask()" class="addTaskButton">Add Task</button>
+                <br><br>
+                <div id="successMessage"></div>
             </div>
             <div id="ViewToDoPopup" class="AddToDoPopup">
                 <div class="popupHeader">
@@ -465,9 +472,9 @@
                 <br><br>
                 <strong>Type</strong>
                 <div class="title-bar">
-                    <button onclick="typeToggle()" id="regularTaskButton" class="skillBox">One Time</button>
-                    <button onclick="typeToggle()" id="dailyTaskButton" class="skillBox">Daily</button>
-                    <button onclick="typeToggle()" id="weeklyTaskButton" class="skillBox">Weekly</button>
+                    <button onclick="typeToggle1()" id="regularTaskButton" class="skillBox">One Time</button>
+                    <button onclick="typeToggle2()" id="dailyTaskButton" class="skillBox">Daily</button>
+                    <button onclick="typeToggle3()" id="weeklyTaskButton" class="skillBox">Weekly</button>
                 </div>
                 <br><br>
                 <strong>Skill</strong>
@@ -558,22 +565,7 @@
             <button onclick="changeToDoRight()" class="material-symbols-outlined changeToDoButton">chevron_right</button>
             <button onclick="toggleAddToDoPopup()" class="material-symbols-outlined changeToDoButton">add_circle</button>
         </div>
-            <div class="widget-content">
-            <div id="task" class="nextTo tasks">
-            <div class="nextTo star">
-                <span class="material-symbols-outlined fill">kid_star</span>
-                <span class="material-symbols-outlined">kid_star</span>
-                <span class="material-symbols-outlined">kid_star</span>
-            </div>
-                <p>‎ ‎ ‎ ‎  </p>
-                <div class="nextTo">
-                <button onclick="taskCompleteToggle()" id="taskCheckbox" class="material-symbols-outlined changeToDoButton">check_box_outline_blank</button>
-                <p>‎ ‎ </p>
-                <strong>Task</strong>
-                </div>
-                <p>‎ ‎ ‎ ‎ ‎ ‎ </p>
-                <div class="skillBox">skill</div>
-            </div>
+            <div id="taskWidget" class="widget-content">
         </div>
         </div>
         <div id="playerInfoWidget" class="player-info-widget">
@@ -687,6 +679,6 @@
         <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-        <script type="module"src="firebaseConfig.js"></script>
+        <script src="firebaseConfig.js"></script>
     </body>
     </html>
